@@ -1,0 +1,51 @@
+name: Build & Package
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore src/EELanLauncher/EELanLauncher.csproj
+
+      - name: Publish launcher
+        run: |
+          dotnet publish src/EELanLauncher/EELanLauncher.csproj -c Release -r win-x64 --self-contained false -o ${{ runner.temp }}\publish
+
+      - name: Install WiX (for MSI)
+        run: choco install wixtoolset -y
+        shell: powershell
+
+      - name: Create release layout and build installer
+        run: |
+          mkdir -Force "${{ runner.temp }}\release"
+          pwsh -File scripts\build_release.ps1 -PublishDir "${{ runner.temp }}\publish" -OutDir "${{ runner.temp }}\release" -WixInstalled
+        shell: powershell
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ee-lan-launcher-release
+          path: ${{ runner.temp }}\release
+
+      - name: Create GitHub Release (optional)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ${{ runner.temp }}\release\*

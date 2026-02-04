@@ -1,0 +1,19 @@
+<Window x:Class="EELanLauncher.PlayConfirmWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Important: How to Play Online" Height="260" Width="500" WindowStartupLocation="CenterOwner">
+    <Grid Margin="12">
+        <StackPanel>
+            <TextBlock Text="You MUST use LAN mode." FontWeight="Bold" Margin="0,0,0,8"/>
+            <TextBlock Text="In Multiplayer:" Margin="0,0,8,0"/>
+            <TextBlock Text="1. Choose LAN" Margin="8,0,0,0"/>
+            <TextBlock Text="2. Host: Create LAN game" Margin="8,0,0,0"/>
+            <TextBlock Text="3. Join: Refresh LAN list" Margin="8,0,0,8"/>
+            <TextBlock Text="Do NOT use Internet or Direct IP." Foreground="DarkRed" Margin="0,0,0,12"/>
+            <CheckBox x:Name="DontShowAgainCheck" Content="Don't show this again"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                <Button Content="OK" Width="80" Click="Ok_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
