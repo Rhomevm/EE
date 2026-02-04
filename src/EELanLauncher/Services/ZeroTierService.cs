@@ -79,7 +79,7 @@ public class ZeroTierService
 
             // format: <netid> <status> <type> <name>
             // status may be OK, ACCESS_DENIED, REQUESTING_CONFIG, NOT_FOUND
-            var parts = Regex.Split(found, "\s+");
+            var parts = Regex.Split(found, @"\s+");
             if (parts.Length < 2) return NetworkState.NotJoined;
             var status = parts[1];
 
