@@ -201,6 +201,13 @@ public partial class MainWindow : Window
             return;
         }
 
+        // Ensure game exe is set
+        if (string.IsNullOrEmpty(_config.GamePath) || !System.IO.File.Exists(_config.GamePath))
+        {
+            MessageBox.Show("Please locate EmpireEarth.exe before launching.");
+            return;
+        }
+
         // Best-effort firewall/profile
         if (!IsAdministrator())
         {

@@ -25,6 +25,7 @@ public static class RunHelper
         }
         catch (Exception ex)
         {
+            Logger.Log("RunHelper error: " + ex.Message);
             return "";
         }
     }
